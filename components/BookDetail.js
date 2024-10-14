@@ -55,38 +55,104 @@ export default function BookDetail({ books }) {
     }
     // setbookInfo(JSON.parse(books));
   }, [books])
+  const handleBorrow = async () => {
+    try {
+      const sendobj = {
+        'Action': 'borrowed',
+        'Title': bookInfo.Title,
+        'Timestamp': Date.now(),
+        'User': parseInt(sessionStorage.getItem('userid'), 10),
+        'Tags': bookInfo.mycategories,
+      }
+      const response = await fetch('/api/kafka-producer', {
+        method: 'POST',
+        'Content-Type': 'application/json',
+        body: JSON.stringify({
+          payload: sendobj,
+          topic: 'broker',
+        }),
 
-  const handleAddReview = async () => {
-    if (newReview.trim() !== '') {
-      setReviews([...reviews, { id: reviews.length + 1, content: newReview, author: sessionStorage.getItem('activeUser') }]);
-      setNewReview(''); // Clear the input field after adding the review
-
-      const userid = sessionStorage.getItem('userid');
-      // const commentInserted = await insertComment(userid, bookInfo.Title, newReview);
-
-      const response = await fetch('/api/comments/', {
-        method : 'POST',
-        headers : {
-          'Content-Type' : 'application/json',
-        },
-        body : JSON.stringify({
-          userid,
-          title : bookInfo.Title,
-          comment : newReview
-        })
       });
 
-      const data = await response.json();
+      const reply = await response.json();
+      console.log('Kafka Producer connected');
+      if (reply.succes) {
+        const data = await reply.text();
+        console.log(data);
 
-      if(data.success){
-        console.log("Comment added successfully");
-      }
-      else{
-        console.error("Failed to add comment");
       }
     }
+    catch (error) {
+      console.error(error);
+    }
+  }
+  const handleAddReview = async () => {
+    try {
 
-    
+      if (newReview.trim() !== '') {
+        setReviews([...reviews, { id: reviews.length + 1, content: newReview, author: sessionStorage.getItem('activeUser') }]);
+        setNewReview(''); // Clear the input field after adding the review
+
+        const userid = sessionStorage.getItem('userid');
+        // const commentInserted = await insertComment(userid, bookInfo.Title, newReview);
+
+        const response = await fetch('/api/comments/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            userid,
+            title: bookInfo.Title,
+            comment: newReview
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          console.log("Comment added successfully");
+        }
+        else {
+          console.error("Failed to add comment");
+        }
+      }
+
+
+
+      const sendobj = {
+        'Action': 'commented',
+        'Title': bookInfo.Title,
+        'Timestamp': Date.now(),
+        'User': parseInt(sessionStorage.getItem('userid'), 10),
+        'Tags': bookInfo.mycategories,
+      }
+      const response = await fetch('/api/kafka-producer', {
+        method: 'POST',
+        'Content-Type': 'application/json',
+        body: JSON.stringify({
+          payload: sendobj,
+          topic: 'broker',
+        }),
+
+      });
+
+      const reply = await response.json();
+      console.log('Kafka Producer connected');
+      if (reply.succes) {
+        const data = await reply.text();
+        console.log(data);
+
+      }
+
+
+    }
+
+    catch (error) {
+      console.error(error);
+    }
+
+
   };
 
   if (!book) {
@@ -103,7 +169,7 @@ export default function BookDetail({ books }) {
           }
 
           {/* Borrow Button */}
-          <button className="group borrow-button inline-flex items-center justify-center p-1 cursor-pointer rounded-md hover: bg-gradient-to-br hover:from-[#9b56df] hover:to-[#e9469d] hover:text-white transition-all duration-200 mt-[20px] border-b-2">
+          <button className="group borrow-button inline-flex items-center justify-center p-1 cursor-pointer rounded-md hover: bg-gradient-to-br hover:from-[#9b56df] hover:to-[#e9469d] hover:text-white transition-all duration-200 mt-[20px] border-b-2" onClick={handleBorrow}>
             <FontAwesomeIcon icon={faHandHolding} className='w-auto h-[25px] mr-[4px] p-1 ' />
             {/* <img
               src="/borrow.png" // Replace with actual icon path

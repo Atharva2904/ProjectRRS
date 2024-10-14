@@ -88,6 +88,14 @@
   "Rating": 4.24
  },
  {
+  "Title": "Python in a Nutshell",
+  "Index": 6433,
+  "Author": "Alex Martelli",
+  "Count": 1,
+  "Categories": "python, java, C++, C#, programming, operatingsystems",
+  "Rating": 4.24
+ },
+ {
   "Title": "Python for Data Analysis",
   "Index": 3457,
   "Author": "Wes McKinney",
@@ -101,14 +109,6 @@
   "Author": "Johannes Ernesti",
   "Count": 1,
   "Categories": "python, programming",
-  "Rating": 4.24
- },
- {
-  "Title": "Python in a Nutshell",
-  "Index": 6433,
-  "Author": "Alex Martelli",
-  "Count": 1,
-  "Categories": "python, java, C++, C#, programming, operatingsystems",
   "Rating": 4.24
  },
  {

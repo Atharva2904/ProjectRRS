@@ -261,7 +261,7 @@ export default function Navbar({ onSearch }) {
                         <li className='text-black m-auto'><i className="fa fa-sign-out text-black" aria-hidden="true"></i>&nbsp;
                             Sign Out
                         </li>
-                        <a href='none'>
+                        <a href='/profile'>
                             <FontAwesomeIcon icon={faCircleUser} className='w-8 h-auto m-0' aria-hidden="true" />
                         </a>
                     </ul>
