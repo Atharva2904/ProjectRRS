@@ -16,18 +16,18 @@ export default function Home() {
   // const [filterTags, setfilterTags] = useState([])
   const router = useRouter();
 
-  const handleSearch = async(searchValue) => {
-    try{
+  const handleSearch = async (searchValue) => {
+    try {
       setLoading(true);
       await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate a delay
       console.log(`/search/${searchValue}`)
       router.push(`/search/${searchValue}`);
-     
+
     }
-    catch(error){
+    catch (error) {
       console.log(error);
     }
-    finally{
+    finally {
       setLoading(false);
     }
 
@@ -36,31 +36,31 @@ export default function Home() {
   useEffect(() => {
     const authenticated = sessionStorage.getItem('auth');
 
-    if(!authenticated  || authenticated === 'false'){
+    if (!authenticated || authenticated === 'false') {
       // setAuthLoading(true);
       router.push('/landing');
     }
-    else{
-        const user = sessionStorage.getItem('activeUser');
-        console.log(user);
+    else {
+      const user = sessionStorage.getItem('activeUser');
+      console.log(user);
 
-        router.replace('/home');
-      }
-    },[router])
-    
-  useEffect(() =>{
-    const fetchData = async() =>{
-      try{
+      router.replace('/home');
+    }
+  }, [router])
 
-        const response =  await fetch('http://localhost:5000/userinterests',{
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+
+        const response = await fetch('http://localhost:5000/userinterests', {
           method: 'POST',
           headers: {
-            'Content-Type' : 'application/json',
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({'userid' : parseInt(sessionStorage.getItem('userid'), 10)})
+          body: JSON.stringify({ 'userid': parseInt(sessionStorage.getItem('userid'), 10) })
         });
 
-        if(!response.ok){
+        if (!response.ok) {
           throw new Error('Network response was not ok');
         }
 
@@ -72,11 +72,11 @@ export default function Home() {
         // Calling Mongo API endpoint to fetch books for each tag
 
         const mongoresponse = await fetch('/api/user-specific', {
-          method : 'POST',
+          method: 'POST',
           headers: {
-            'Content-Type' : 'application/json',
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({tags : data['user_rec']}),
+          body: JSON.stringify({ tags: data['user_rec'] }),
         });
 
 
@@ -89,7 +89,7 @@ export default function Home() {
 
 
       }
-      catch(error){
+      catch (error) {
         console.error('Error fetching data: ', error);
       }
     }
@@ -98,17 +98,17 @@ export default function Home() {
     fetchData();
 
 
-    const intervalId = setInterval(()=>{
+    const intervalId = setInterval(() => {
       fetchData();
     }, 5000);
 
 
     return () => clearInterval(intervalId);
   }, []);
-    
-    if(loading){
-      // setLoading(false);
-      return <Loading/>;
+
+  if (loading) {
+    // setLoading(false);
+    return <Loading />;
   }
 
   // const PageComponent = ({ recommended_books }) => {
@@ -157,22 +157,56 @@ export default function Home() {
   //   // }
   // }, [recommended_books])
 
+  /// OLD CODE
+  //   return (
+
+  //     // <div className="container bg-gradient-to-br from-[#47126b] via-[#973aa8] to-[#ea698b] w-screen">
+  //     <>
+
+
+  //       <Navbar onSearch={handleSearch}/>
+  //       {Object.keys(recommended_books).map(tag =>(
+  //         <BookList key={tag} heading={tag} books={recommended_books[tag]}></BookList>
+  //       ))}
+  //       {/* <BookList heading="Recommended" books={recommended_books} />
+  //       <BookList heading="Recommended" books={recommended_books} />
+  //       <BookList heading="Recommended" books={recommended_books} />
+  //       <BookList heading="Recommended" books={recommended_books} /> */}
+  //    </>
+  //   );
+  // }
+
+  /// END OF OLD CODE
 
   return (
 
     // <div className="container bg-gradient-to-br from-[#47126b] via-[#973aa8] to-[#ea698b] w-screen">
     <>
+      <div
+        style={{
+          backgroundImage: "url('/home-background.jpg')",
+          backgroundSize: "cover", // Ensure the background image covers the entire container
+          backgroundPosition: "center", // Center the image
+          minHeight: "100vh", // Ensure the background takes the full viewport height
+          width: "100vw", // Full width of the viewport
+          position: "fixed", // Fix the position so it stays in place
+          top: 0, // Position at the top of the viewport
+          left: 0, // Position at the left of the viewport
+          zIndex: -1, // Send the background to the back
+        }}
+      ></div>
+      <Navbar onSearch={handleSearch} />
+      <div className="mx-auto justify-center items-center pl-52">
+        {Object.keys(recommended_books).map(tag => (
 
-    
-      <Navbar onSearch={handleSearch}/>
-      {Object.keys(recommended_books).map(tag =>(
-        <BookList key={tag} heading={tag} books={recommended_books[tag]}></BookList>
-      ))}
+          <BookList key={tag} heading={tag.toUpperCase()} books={recommended_books[tag]}></BookList>
+        ))}
+      </div>
       {/* <BookList heading="Recommended" books={recommended_books} />
       <BookList heading="Recommended" books={recommended_books} />
       <BookList heading="Recommended" books={recommended_books} />
       <BookList heading="Recommended" books={recommended_books} /> */}
-   </>
+    </>
   );
 }
 

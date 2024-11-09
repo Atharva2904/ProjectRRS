@@ -36,7 +36,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-[#cbc0d3] to-[#f4978e]  `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#f9f9f9]`}
       >
         {/* <Navbar onSearch={handleSearch}/> */}
         {children}

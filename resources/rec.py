@@ -39,7 +39,8 @@ def load_data():
 
     # Load DataFrame
 
-    tengen_df = pd.read_csv(r'C:\SEM5\tempWorkspace\apurvinho\resources\tengen2.csv')
+    # tengen_df = pd.read_csv(r'C:\SEM5\tempWorkspace\apurvinho\resources\tengen2.csv')
+    tengen_df = pd.read_csv(r'C:\SEM5\tempWorkspace\apurvinho\resources\updated_books_dataset.csv')
     # tengen_df = pd.read_csv(DATA_FILE)
     
     # Read and process custom keywords
@@ -174,9 +175,18 @@ def recommend():
                 books["Count"] = int(tengen_df.loc[index, "count"])
                 books["Categories"] = cats
                 books["Rating"] = round(tengen_df.loc[index, 'Rating'],2)
+
+                if tengen_df.loc[index, 'Thumbnail'] == "" or pd.isna(tengen_df.loc[index, 'Thumbnail']):
+                    # books['Thumbnail_Path'] = f'C:/SEM5/tempWorkspace/apurvinho/public/cpp.jpeg'
+                    initial = books['Title'][0]
+                    books['Thumbnail_Path'] = f'{initial.upper()}.jpeg'
+                else:
+                    bookindex = tengen_df.loc[index, 'BookIndex']
+                    books['Thumbnail_Path'] = f'{bookindex}.jpg'
+
                 # books['Image'] = tengen_df.loc[index, 'Thumbnail'] if tengen_df.loc[index, 'Thumbnail'] else 'null'
 
-
+                # print(books)
                 recommendations.append(books)
 
             recommendations.sort(key=lambda x: x['Rating'], reverse=True)

@@ -188,12 +188,12 @@ function BookList({ heading, books }) {
   // }
   return (
     <div className="container p-20 h-fit w-auto">
-      <h2 className='text-black text-2xl m-4'>{heading}</h2>
-      <div className={`heading ${heading} flex justify-evenly space-x-2 overflow-auto hover:cursor-pointer`}>
+      <h2 className='text-black text-2xl m-4 font-semibold'>{heading}</h2>
+      <div className={`heading ${heading} flex justify-evenly space-x-2 overflow-x-scroll hover:cursor-pointer`}>
         {books.map((book) => {
           // Calculate Count before rendering the Card
           const count = book.isKRC ? book.count : 0;
-
+          // console.log(book);
           return (
             <Card
               key={book.Title} // Use a unique identifier for the key
@@ -202,6 +202,7 @@ function BookList({ heading, books }) {
               Count={count} // Pass Count as a prop
               Categories={book.mycategories}
               Rating={book.Rating}
+              Thumbnail={book.Thumbnail_Path}
             />
           );
         })}

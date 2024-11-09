@@ -22,7 +22,7 @@ export default function Sidebar({ isOpen, onClose }) {
         // <div className={`sidebar ${isOpen ? "open" : ""} p-24 `}>
         //   <div className={`sidebar fixed top-0 left-0 h-full bg-[#5236c3] border-2 border-gray-600 items-center justify-center w-24 transform transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full', 'transition duration-100 ease-in-out'}`}>
         // <div className={`fixed top-0 left-0 h-full bg-[#5236c3] border-2 border-gray-600 w-[90px] transform transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className={`fixed top-0 left-0 h-full bg-transparent
+        <div className={`fixed top-0 left-0 h-full bg-black
  border-none w-[90px] transform transition-transform duration-500 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}>
             {/* Your sidebar content here */}
 

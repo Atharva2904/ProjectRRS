@@ -13,7 +13,7 @@ const opensans = DM_Sans({ weight: '400', subsets: ['latin-ext'] });
 
 // const 
 
-function Card({ Title, Author, Count, Categories, Rating }) {
+function Card({ Title, Author, Count, Categories, Rating, Thumbnail}) {
   // Split and format the categories
   const categoryArray = Categories.split(',').map(category => category.trim().toUpperCase());
 
@@ -24,9 +24,11 @@ function Card({ Title, Author, Count, Categories, Rating }) {
 
   const router = useRouter();
   const titleClick = (e) => {
+    // console.log(Thumbnail);
     let title = e.target.textContent;
     console.log(e.target.textContent);
     router.push(`/bookinfo/${title}`)
+
 
   }
 
@@ -34,7 +36,9 @@ function Card({ Title, Author, Count, Categories, Rating }) {
     <div className={`${opensans.className} group flex flex-col bg-transparent border-1 border-r-2 bg-[#eef2f6] border-[#e6dde1] text-xl p-4 w-80 h-80 hover:bg-[#543e8f] hover:shadow-2xl transition: all .2s cubic-bezier(.215,.61,.355,1) hover:text-white`}>
       <div className="flex items-center justify-center h-40 min-w-52 w-full">
         <img
-          src="cpp.jpeg"
+          // src="cpp.jpeg"
+           src={Thumbnail} // Set fallback image here
+          // src= {Thumbnail}
           alt="Book Cover"
           className="object-contain w-full h-full rounded"
         />
