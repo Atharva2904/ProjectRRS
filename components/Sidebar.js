@@ -39,10 +39,10 @@ export default function Sidebar({ isOpen, onClose }) {
                     <li className="hover:invert  hover:text-black w-32 m-2 p-3"><a href="/profile">
                         <FontAwesomeIcon icon={faUser} className="w-7 h-auto  hover:contrast-50 hover:cursor-pointer" />
                     </a></li>
-                    <li className=" hover:invert hover:text-black w-32 m-2 p-3"><a href="#services">
+                    <li className=" hover:invert hover:text-black w-32 m-2 p-3"><a href="/wishlist">
                         <FontAwesomeIcon icon={faFolderOpen} className="w-7 h-auto hover:contrast-50  hover:cursor-pointer" />
                     </a></li>
-                    <li className=" hover:invert hover:text-black w-32 m-2 p-3"><a href="#">
+                    <li className=" hover:invert hover:text-black w-32 m-2 p-3"><a href="/landing">
                         <FontAwesomeIcon icon={faArrowRightFromBracket} className="w-7 h-auto hover:contrast-50  hover:cursor-pointer" onClick={logout} />
 
                     </a></li>

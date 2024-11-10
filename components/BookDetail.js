@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Stars from './Stars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHandHolding } from '@fortawesome/free-solid-svg-icons';
+import { faHandHolding, faFolderOpen } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function BookDetail({ books }) {
@@ -16,6 +16,44 @@ export default function BookDetail({ books }) {
   const [reviews, setReviews] = useState([
     { id: 1, eachComment: 'Great book!', username: 'John Doe' },
   ]);
+  const [wishlist, setWishlist] = useState([]);
+
+  const addToWishlist = async () => {
+    console.log(bookInfo.Title);
+    const book = bookInfo;
+    const userid = sessionStorage.getItem('userid');
+    const isBookInWishlist = wishlist.some(item => item.Title === book.Title);
+    console.log("Book : ", book);
+    if (!isBookInWishlist) {
+      let updatedWishlist = [...wishlist, book];
+      setWishlist(updatedWishlist);
+      console.log(updatedWishlist);
+
+      // Send the new book to the server to be saved in the database
+      try {
+        const response = await fetch('/api/wishlist', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ book, userid }), // Ensure the book is sent as an object
+        });
+
+        if (!response.ok) {
+          const errorText = await response.text(); // Get the error message
+          throw new Error(`HTTP error! Status: ${response.status}. Message: ${errorText}`);
+        }
+
+        const result = await response.json();
+        console.log(`${book.Title} added to wishlist!`);
+      } catch (error) {
+        console.error('Error adding book to wishlist:', error);
+      }
+    } else {
+      console.log(`${book.Title} is already in the wishlist.`);
+    }
+  };
+
 
   // async function insertComment(userid, title, comment) {
   //     const uri = "mongodb://localhost:27017/";
@@ -57,7 +95,7 @@ export default function BookDetail({ books }) {
         const response = await fetch('/api/comment', {
           method: 'POST',
           'Content-Type': 'application/json',
-          body: JSON.stringify({ 'title' : value.Title }),
+          body: JSON.stringify({ 'title': value.Title }),
 
         });
 
@@ -213,11 +251,20 @@ export default function BookDetail({ books }) {
               <img src='/cpp.jpeg' alt={bookInfo.Title} className="book-detail-image w-[50%] h-auto object-cover rounded-s-md mt-3" />
             )}
 
-            {/* borrow */}
+            {/* borrow
             <button className="group borrow-button inline-flex items-center justify-center p-1 cursor-pointer rounded-md bg-gradient-to-br from-[#7cadc7] to-[#335b67] text-white hover:from-[#9b56df] hover:to-[#e9469d] transition-all duration-200 mt-[20px] border-b-2">
               <FontAwesomeIcon icon={faHandHolding} className='w-auto h-[25px] mr-[4px] p-1 ' />
               <span className='mt-3 text-lg p-1 group-hover:text-white'> Borrow </span>
+            </button> */}
+            <br></br>
+            <button
+              className="group inline-flex items-center justify-center p-1 cursor-pointer rounded-md hover: bg-gradient-to-br hover:from-[#9b56df] hover:to-[#e9469d] hover:text-white transition-all duration-200 mt-[20px] border-b-2"
+              onClick={() => addToWishlist()}
+            >
+              <FontAwesomeIcon icon={faFolderOpen} className="w-7 h-auto hover:contrast-50  hover:cursor-pointer" />
+              <span className="fas fa-plus ml-2 text-lg">Add to Wishlist</span>
             </button>
+
           </div>
 
           <div className="book-info-container p-[20px] w-[60%] flex flex-col">

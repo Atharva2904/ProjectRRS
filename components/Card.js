@@ -33,7 +33,7 @@ function Card({ Title, Author, Count, Categories, Rating, Thumbnail}) {
   }
 
   return (
-    <div className={`${opensans.className} group flex flex-col bg-transparent border-1 border-r-2 bg-[#eef2f6] border-[#e6dde1] text-xl p-4 w-80 h-80 hover:bg-[#543e8f] hover:shadow-2xl transition: all .2s cubic-bezier(.215,.61,.355,1) hover:text-white`}>
+    <div className={`${opensans.className} group flex flex-col border-2 border-r-2 bg-[#eef2f6] border-[#e6dde1]  text-xl p-4 w-80 h-88 hover:bg-[#008080] hover:shadow-2xl transition: all .2s cubic-bezier(.215,.61,.355,1) hover:text-black`}>
       <div className="flex items-center justify-center h-40 min-w-52 w-full">
         <img
           // src="cpp.jpeg"
@@ -48,10 +48,10 @@ function Card({ Title, Author, Count, Categories, Rating, Thumbnail}) {
         <h4 className="text-black font-semibold text-lg text-nowrap overflow-hidden text-ellipsis hover:cursor-pointer  group-hover:text-white" onClick={titleClick}>{Title}</h4>
         <span className='text-black text-sm text-ellipsis group-hover:text-white'>Author: {Author}</span>
         <span className='text-black text-sm group-hover:text-white'>Available: {Count}</span>
-        <span className='text-black text-sm group-hover:text-white mb-2'><Stars rating={Rating} /></span>
+        <span className='text-black text-sm group-hover:text-black mb-2'><Stars rating={Rating} /></span>
         <ul className={`${literata.className} flex  gap-2 group-hover:text-white`}>
           {displayCategories.map((category, index) => (
-            <li key={index} className="text-black text-[10px] p-1 border-2 rounded-xl flex items-center justify-center min-w-[90px] h-8 hover:cursor-pointer group-hover:text-white" onClick={titleClick}>
+            <li key={index} className="text-black text-[12px] font-semibold p-1 border-2 border-black  rounded-xl flex items-center justify-center min-w-[90px] h-8 hover:cursor-pointer group-hover:text-white group-hover:border-white" onClick={titleClick}>
               {category}
             </li>
           ))}

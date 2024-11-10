@@ -189,7 +189,7 @@ function BookList({ heading, books }) {
   return (
     <div className="container p-20 h-fit w-auto">
       <h2 className='text-black text-2xl m-4 font-semibold'>{heading}</h2>
-      <div className={`heading ${heading} flex justify-evenly space-x-2 overflow-x-scroll hover:cursor-pointer`}>
+      <div className={`heading ${heading} flex justify-evenly space-x-2 overflow-x-scroll hover:cursor-pointer `}>
         {books.map((book) => {
           // Calculate Count before rendering the Card
           const count = book.isKRC ? book.count : 0;

@@ -9,7 +9,7 @@ const inter = Inter({
 
 const EditProfilePage = () => {
   const [formData, setFormData] = useState({
-    name: '',
+    name: sessionStorage.getItem('activeUser'),
     email: '',
     preferences: '',
   });
@@ -22,9 +22,27 @@ const EditProfilePage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Updated Profile:', formData);
+
+    const response = await fetch('/api/changeProfile',{
+      method : 'POST',
+      'Content-Type' : 'application/json',
+      body : JSON.stringify(formData),
+    });
+
+
+    const reply = await response.json();
+
+    if(reply.success){
+      console.log("SUCCESSS")
+    }
+    else{
+      console.error("ERROR in updating profile");
+    }
+
+
   };
 
   return (
@@ -41,11 +59,11 @@ const EditProfilePage = () => {
               type="text"
               id="name"
               name="name"
-              value={formData.name}
+              value={sessionStorage.getItem('activeUser')}
               onChange={handleChange}
               className="w-full p-3 border rounded-lg shadow-sm focus:ring focus:ring-blue-200 focus:outline-none text-gray-900"  // Updated text color to ensure visibility
               placeholder="Enter your name"
-              required
+              disabled
             />
           </div>
 

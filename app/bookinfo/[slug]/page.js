@@ -19,7 +19,9 @@ export default function bookinfo({ params }) {
     const { slug } = params;
     const router = useRouter();
 
-
+    const navigateToWishlist = () => {
+        router.push('/wishlist'); // Navigate to the Wishlist page
+    };
     useEffect(() => {
         async function getInfo() {
             const response = await fetch('/api/info', {
@@ -62,43 +64,43 @@ export default function bookinfo({ params }) {
         setInfoAvailable(true);
     }, [book_info])
     const handleClick = async () => {
-        try{
-        const obj = JSON.parse(book_info);
-        if(infoAvailable){
+        try {
+            const obj = JSON.parse(book_info);
+            if (infoAvailable) {
 
-            console.log('I am in Booklist and ', obj.Title, 'was clicked');
-            const sendobj = {
-                'Action' : 'click',
-                'Title' : obj.Title,
-                'Timestamp' : Date.now(),
-                'User': parseInt(sessionStorage.getItem('userid'), 10),
-                'Tags' : obj.mycategories,
+                console.log('I am in Booklist and ', obj.Title, 'was clicked');
+                const sendobj = {
+                    'Action': 'click',
+                    'Title': obj.Title,
+                    'Timestamp': Date.now(),
+                    'User': parseInt(sessionStorage.getItem('userid'), 10),
+                    'Tags': obj.mycategories,
+                }
+                const response = await fetch('/api/kafka-producer', {
+                    method: 'POST',
+                    'Content-Type': 'application/json',
+                    body: JSON.stringify({
+                        payload: sendobj,
+                        topic: 'broker',
+                    }),
+
+                });
+
+                const reply = await response.json();
+                console.log('Kafka Producer connected');
+                if (reply.succes) {
+                    const data = await reply.text();
+                    console.log(data);
+
+                }
             }
-            const response = await fetch('/api/kafka-producer',{
-                method: 'POST',
-                'Content-Type' : 'application/json',
-                body : JSON.stringify({
-                    payload : sendobj,
-                    topic : 'broker',
-                }),
-
-            });
-
-            const reply = await response.json();
-            console.log('Kafka Producer connected');
-            if(reply.succes){
-                const data = await reply.text();
-                console.log(data);
-
+            else {
+                console.log('None');
             }
         }
-        else{
-            console.log('None');
+        catch (error) {
+            console.error(error);
         }
-    }
-    catch(error){
-        console.error(error);
-    }
     }
 
 

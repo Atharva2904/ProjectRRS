@@ -85,6 +85,19 @@ function filterPage() {
   }
   return (
     <>
+      <div
+        style={{
+          backgroundImage: "url('/home-background.jpg')",
+          backgroundSize: "cover", // Ensure the background image covers the entire container
+          backgroundPosition: "center", // Center the image
+          minHeight: "100vh", // Ensure the background takes the full viewport height
+          width: "100vw", // Full width of the viewport
+          position: "fixed", // Fix the position so it stays in place
+          top: 0, // Position at the top of the viewport
+          left: 0, // Position at the left of the viewport
+          zIndex: -1, // Send the background to the back
+        }}
+      ></div>
       <Navbar onSearch={handleSearch} />
       <div className="book-stack flex flex-col justify-items-center mx-auto max-w-[80%] items-center ">
 

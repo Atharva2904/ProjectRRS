@@ -350,8 +350,12 @@ export default function Navbar({ onSearch }) {
                 </div>
 
                 <ul className="flex items-center gap-6">
-                    <li className="text-gray-800 cursor-pointer hover:text-teal-700">Sign Out</li>
-                    <a href="none">
+                    <li className="text-gray-800 cursor-pointer hover:text-teal-700">
+                        <a href="/landing">
+                            Sign Out
+                            </a>
+                        </li>
+                    <a href="/profile">
                         <FontAwesomeIcon icon={faCircleUser} className="w-6 h-6 text-teal-600 hover:text-teal-700" />
                     </a>
                 </ul>
